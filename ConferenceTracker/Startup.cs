@@ -43,16 +43,16 @@ namespace ConferenceTracker
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILogger<Startup> logger)
         {
-            if (env.IsDevelopment() == false)
+            if (env.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                logger.LogInformation("Environment is in development");
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();  
             }
             else 
             {
-            logger.LogInformation("Environment is in development");
-            app.UseDeveloperExceptionPage();
-            app.UseDatabaseErrorPage();
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
